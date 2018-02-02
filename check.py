@@ -1,11 +1,11 @@
 """
 Scoring check for Ecomm app
 """
+import argparse
 import requests
 
 AUTH_API_URL = "http://lilbite.org:9000"
 BANK_API_URL = "http://lilbite.org:5000"
-ECOMM_URL = "http://localhost:8000"
 
 SCORING_USER = "doshmajhan"
 SCORING_PASSWORD = "anotherdayanotherdollar23$"
@@ -71,14 +71,12 @@ def check(team, address):
     data['password'] = SCORING_PASSWORD
     endpoint = 'login'
     resp = api_request(endpoint, data, address, sess)
-    print resp.content
 
     # try to buy an item
     post_data = dict()
     post_data['item_id'] = 3
     endpoint = 'shop'
     resp = api_request(endpoint, post_data, address, sess)
-    print resp.content
     if "Insufficient funds" not in resp.content:
         raise Exception("Failed")
 
@@ -90,9 +88,16 @@ def check(team, address):
     post_data['amount'] = 10000
     resp = api_request('dosh-add-credits', post_data, BANK_API_URL, sess)
     if 'success' in resp.json():
-        print "Added money"
+        print "SUCCESS"
 
 
 if __name__ == '__main__':
-    check(1, ECOMM_URL)
+    parser = argparse.ArgumentParser(description="Check a teams web app")
+    parser.add_argument('-t', dest='team', help='team number')
+    parser.add_argument('-a', dest='address', help='ecommerce url (include http://)')
 
+    args = parser.parse_args()
+    team = args.team
+    address = args.address
+
+    check(team, address)
