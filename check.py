@@ -4,8 +4,8 @@ Scoring check for Ecomm app
 import argparse
 import requests
 
-AUTH_API_URL = "http://lilbite.org:9000"
-BANK_API_URL = "http://lilbite.org:5000"
+AUTH_API_URL = "http://10.0.20.21:9000"
+BANK_API_URL = "http://10.0.20.21:5000"
 
 SCORING_USER = "doshmajhan"
 SCORING_PASSWORD = "anotherdayanotherdollar23$"
